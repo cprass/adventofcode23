@@ -4,7 +4,7 @@ This is the code I wrote for solving the [Advent of Code 2023](https://adventofc
 
 ## Usage
 
-The entrypoing is a single Go application. There are several flags that can be used to control the output. The program reads the puzzle input in the form text files. The text input is expected at `data.txt` or `test.txt` (for running the AoC test cases) per default, but the location can also be controlled via parameters.
+The entrypoing is a single Go application. There are several flags that can be used to control the output. The program reads the puzzle input in the form text files. The text input is expected at `./data.txt` or `./internal/day_{n}/test.txt` (for running the AoC test cases) per default, but the location can also be controlled via parameters.
 
 This might look weird at first, but it is a good setup for actively working on puzzles. You can have your main puzzle input in `data.txt` while switching to the example data in `test.txt` without any issues.
 
@@ -14,7 +14,7 @@ This might look weird at first, but it is a good setup for actively working on p
 
 `-i myData.txt` - Load data from `myData.txt`, located at the root of the repository (data is loaded from `data.txt` if not set)
 
-`-t myTestData.txt` - Ignore data input and load data from `myTestData.txt` instead, located at the root of the repository
+`-t` - Ignore data input and load data from `./internal/day_{n}/test.txt` instead, located at the root of the repository
 
 `<int>`
 
@@ -41,16 +41,16 @@ Executes **part one** of the **day one** puzzle using **`<repo-root>/foo/bar.txt
 ---
 
 ```sh
-go run cmd/adventofcode23/main.go -t test.txt 2
+go run cmd/adventofcode23/main.go -t 2
 ```
 
-Executes **part two** of the **day two** puzzle using **`<repo-root>/test.txt`** as puzzle input.
+Executes **part two** of the **day two** puzzle using the test puzzle input.
 
 ## Debugging
 
 I find it most effective to come up with solutions using the debugger, as long as there isn't any TDD setup. There is a VSCode debugging setup, which has to be manually updated for test cases.
 
-E.g. the `Launch tests` debug option uses `"args": ["-t", "test.txt", "2"],` which has to be manually updated to change the puzzle number or switch from part two to part one.
+E.g. the `Launch tests` debug option uses `"args": ["-t", "2"],` which has to be manually updated to change the puzzle number or switch from part two to part one.
 
 ## Goals
 

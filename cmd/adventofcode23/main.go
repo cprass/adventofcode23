@@ -31,12 +31,12 @@ func printErrAndExit(message string, err error) {
 func main() {
 
 	inputFile := flag.String("i", "data.txt", "Input file path relative to the current directory")
-	testInputFile := flag.String("t", "", "Test input file path relative to the current directory")
 	isPartOne := flag.Bool("p1", false, "If set, runs code for part one, otherwise runs code for part 2")
+	useTestInput := flag.Bool("t", false, "Run program with test input")
 
 	flag.Usage = func() {
 		fmt.Println("Usage:")
-		fmt.Println("./adventofcode23 -i data.txt -t test.txt -p1 1")
+		fmt.Println("./adventofcode23 -i data.txt -p1 1")
 	}
 
 	flag.Parse()
@@ -45,18 +45,19 @@ func main() {
 	if day == "" {
 		printErrAndExit("please specify the day number as command-line argument", nil)
 	}
+	dayPadded := fmt.Sprintf("%02s", day)
 
-	f := *inputFile
-	if *testInputFile != "" {
-		f = *testInputFile
+	dataFilePath := *inputFile
+	if *useTestInput {
+		dataFilePath = fmt.Sprintf("internal/day_%s/test.txt", dayPadded)
 	}
 
-	input, err := utils.LoadFile(f)
+	input, err := utils.LoadFile(dataFilePath)
 	if err != nil {
 		printErrAndExit("error loading data: ", err)
 	}
 
-	result, err := utils.RunModule(day, *isPartOne, input)
+	result, err := utils.RunModule(dayPadded, *isPartOne, input)
 	if err != nil {
 		printErrAndExit("error running module: ", err)
 	}

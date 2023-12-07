@@ -17,20 +17,20 @@ package utils
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/cprass/adventofcode23/internal/day_01"
 	"github.com/cprass/adventofcode23/internal/day_02"
+	"github.com/cprass/adventofcode23/internal/day_03"
 )
 
 func RunModule(day string, isPartOne bool, input []string) (string, error) {
-	dayPadded := fmt.Sprintf("%02s", day)
-
-	switch dayPadded {
+	switch day {
 	case "01":
 		return day_01.Run(input, isPartOne)
 	case "02":
 		return day_02.Run(input, isPartOne)
+	case "03":
+		return day_03.Run(input, isPartOne)
 	}
 
 	return "", errors.New("requested module not found")

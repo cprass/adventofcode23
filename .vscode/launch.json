@@ -10,7 +10,7 @@
       "request": "launch",
       "mode": "debug",
       "program": "${workspaceFolder}/cmd/adventofcode23",
-      "args": ["-t", "4"],
+      "args": ["-t", "5"],
       "cwd": "${workspaceFolder}"
     },
     {
@@ -19,7 +19,7 @@
       "request": "launch",
       "mode": "debug",
       "program": "${workspaceFolder}/cmd/adventofcode23",
-      "args": ["3"],
+      "args": ["5"],
       "cwd": "${workspaceFolder}"
     }
   ]

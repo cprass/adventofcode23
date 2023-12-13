@@ -22,6 +22,7 @@ import (
 	"github.com/cprass/adventofcode23/internal/day_02"
 	"github.com/cprass/adventofcode23/internal/day_03"
 	"github.com/cprass/adventofcode23/internal/day_04"
+	"github.com/cprass/adventofcode23/internal/day_05"
 )
 
 func RunModule(day string, isPartOne bool, input []string) (string, error) {
@@ -34,6 +35,8 @@ func RunModule(day string, isPartOne bool, input []string) (string, error) {
 		return day_03.Run(input, isPartOne)
 	case "04":
 		return day_04.Run(input, isPartOne)
+	case "05":
+		return day_05.Run(input, isPartOne)
 	}
 
 	return "", errors.New("requested module not found")

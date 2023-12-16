@@ -19,7 +19,13 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 
+	"github.com/cprass/adventofcode23/internal/day_01"
+	"github.com/cprass/adventofcode23/internal/day_02"
+	"github.com/cprass/adventofcode23/internal/day_03"
+	"github.com/cprass/adventofcode23/internal/day_04"
+	"github.com/cprass/adventofcode23/internal/day_05"
 	"github.com/cprass/adventofcode23/internal/utils"
 )
 
@@ -29,10 +35,9 @@ func printErrAndExit(message string, err error) {
 }
 
 func main() {
-
+	var err error
 	inputFile := flag.String("i", "data.txt", "Input file path relative to the current directory")
 	isPartOne := flag.Bool("p1", false, "If set, runs code for part one, otherwise runs code for part 2")
-	useTestInput := flag.Bool("t", false, "Run program with test input")
 
 	flag.Usage = func() {
 		fmt.Println("Usage:")
@@ -41,23 +46,34 @@ func main() {
 
 	flag.Parse()
 
-	day := flag.Arg(0)
-	if day == "" {
+	dayArg := flag.Arg(0)
+	if dayArg == "" {
 		printErrAndExit("please specify the day number as command-line argument", nil)
 	}
-	dayPadded := fmt.Sprintf("%02s", day)
-
-	dataFilePath := *inputFile
-	if *useTestInput {
-		dataFilePath = fmt.Sprintf("internal/day_%s/test.txt", dayPadded)
+	dayNum, err := strconv.Atoi(dayArg)
+	if err != nil {
+		printErrAndExit("error parsing day number: ", err)
 	}
-
-	input, err := utils.LoadFile(dataFilePath)
+	input, err := utils.LoadFile(*inputFile)
 	if err != nil {
 		printErrAndExit("error loading data: ", err)
 	}
 
-	result, err := utils.RunModule(dayPadded, *isPartOne, input)
+	var result string
+
+	switch dayNum {
+	case 1:
+		result, err = day_01.Run(input, *isPartOne)
+	case 2:
+		result, err = day_02.Run(input, *isPartOne)
+	case 3:
+		result, err = day_03.Run(input, *isPartOne)
+	case 4:
+		result, err = day_04.Run(input, *isPartOne)
+	case 5:
+		result, err = day_05.Run(input, *isPartOne)
+	}
+
 	if err != nil {
 		printErrAndExit("error running module: ", err)
 	}

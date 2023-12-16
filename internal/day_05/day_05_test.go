@@ -1,4 +1,4 @@
-package day_05_test
+package day_05
 
 import (
 	"testing"
@@ -12,7 +12,7 @@ func TestPart1(t *testing.T) {
 		t.Errorf("Test failed! Error: %s", err)
 	}
 
-	actual, err := utils.RunModule("05", true, input)
+	actual, err := Run(input, true)
 
 	if err != nil {
 		t.Errorf("Test failed! Error: %s", err)
@@ -30,7 +30,7 @@ func TestPart2(t *testing.T) {
 		t.Errorf("Test failed! Error: %s", err)
 	}
 
-	actual, err := utils.RunModule("05", false, input)
+	actual, err := Run(input, false)
 
 	if err != nil {
 		t.Errorf("Test failed! Error: %s", err)

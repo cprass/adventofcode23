@@ -20,6 +20,8 @@ import (
 	"strconv"
 )
 
+type Runner struct{}
+
 type GearRatios struct {
 	rows int
 	cols int
@@ -97,7 +99,7 @@ func hasNearbySymbol(r *regexp.Regexp, w []string) bool {
 	return false
 }
 
-func Run(input []string, isPartOne bool) (string, error) {
+func (r Runner) Run(input []string, isPartOne bool) (string, error) {
 	g := GearRatios{
 		rInts:    regexp.MustCompile(`\d+`),
 		rSymbols: regexp.MustCompile(`[^\d\.]`),

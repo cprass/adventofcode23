@@ -21,6 +21,8 @@ import (
 	"strings"
 )
 
+type Runner struct{}
+
 // calculates how many of the winning numbers are contained in the existing numbers
 func nWinningNumbers(winningNumbers []int, numbers []int) int {
 	matchingNumbers := 0
@@ -37,7 +39,7 @@ func nWinningNumbers(winningNumbers []int, numbers []int) int {
 	return matchingNumbers
 }
 
-func Run(input []string, isPartOne bool) (string, error) {
+func (r Runner) Run(input []string, isPartOne bool) (string, error) {
 	// Part one is the sum of the card points
 	// Part two is the sum of total scratchcards including copies
 	sum := 0

@@ -22,6 +22,8 @@ import (
 	"strings"
 )
 
+type Runner struct{}
+
 func convertLiteral(s string) string {
 	s = strings.ToLower(s)
 
@@ -61,7 +63,7 @@ func concatToInt(isPartOne bool, s1 string, s2 string) int {
 	return i
 }
 
-func Run(input []string, isPartOne bool) (string, error) {
+func (r Runner) Run(input []string, isPartOne bool) (string, error) {
 	var re *regexp.Regexp
 	if isPartOne {
 		re = regexp.MustCompile(`(\d)`)

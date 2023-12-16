@@ -1,4 +1,4 @@
-package day_05
+package day_02
 
 import (
 	"testing"
@@ -7,9 +7,9 @@ import (
 )
 
 func TestPart1(t *testing.T) {
-	utils.Part1.RunTest(t, Runner{}, "35")
+	utils.Part1.RunTest(t, Runner{}, "8")
 }
 
 func TestPart2(t *testing.T) {
-	utils.Part2.RunTest(t, Runner{}, "46")
+	utils.Part2.RunTest(t, Runner{}, "2286")
 }

@@ -22,6 +22,8 @@ import (
 	"strings"
 )
 
+type Runner struct{}
+
 type MapItem struct {
 	destStart int
 	srcStart  int
@@ -173,7 +175,7 @@ func parseSeeds(inputLine string, isPartOne bool) (seedDefs, error) {
 	return seeds, nil
 }
 
-func Run(input []string, isPartOne bool) (string, error) {
+func (r Runner) Run(input []string, isPartOne bool) (string, error) {
 	var blocks [][]string
 
 	// Collect each line in different blocks, divided by empty lines

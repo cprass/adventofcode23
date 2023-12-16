@@ -29,8 +29,21 @@ import (
 	"github.com/cprass/adventofcode23/internal/utils"
 )
 
+// Create a map of runners
+var runners = map[int]utils.Runner{
+	1: day_01.Runner{},
+	2: day_02.Runner{},
+	3: day_03.Runner{},
+	4: day_04.Runner{},
+	5: day_05.Runner{},
+}
+
 func printErrAndExit(message string, err error) {
-	fmt.Printf("%s%s\n", message, err)
+	m := message
+	if err != nil {
+		m = fmt.Sprintf("%s: %s", message, err)
+	}
+	fmt.Printf("%s\n", m)
 	os.Exit(1)
 }
 
@@ -59,25 +72,26 @@ func main() {
 		printErrAndExit("error loading data: ", err)
 	}
 
-	var result string
-
-	switch dayNum {
-	case 1:
-		result, err = day_01.Run(input, *isPartOne)
-	case 2:
-		result, err = day_02.Run(input, *isPartOne)
-	case 3:
-		result, err = day_03.Run(input, *isPartOne)
-	case 4:
-		result, err = day_04.Run(input, *isPartOne)
-	case 5:
-		result, err = day_05.Run(input, *isPartOne)
+	runner, ok := runners[dayNum]
+	if !ok {
+		printErrAndExit(fmt.Sprintf("invalid day number: %d", dayNum), nil)
 	}
+
+	var part utils.Part
+	if *isPartOne {
+		part = utils.Part1
+	} else {
+		part = utils.Part2
+	}
+
+	result, err := part.Run(runner, input)
 
 	if err != nil {
 		printErrAndExit("error running module: ", err)
 	}
 
+	fmt.Printf("Running part %d of day %d\n", part, dayNum)
+	fmt.Printf("https://adventofcode.com/2023/day/%d\n", dayNum)
 	fmt.Printf("Result:\n%s\n", result)
 
 	os.Exit(0)

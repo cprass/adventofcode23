@@ -22,6 +22,8 @@ import (
 	"strings"
 )
 
+type Runner struct{}
+
 type GameSet struct {
 	red   int
 	green int
@@ -97,7 +99,7 @@ func isValidGame(game *Game) bool {
 	return true
 }
 
-func Run(input []string, isPartOne bool) (string, error) {
+func (r Runner) Run(input []string, isPartOne bool) (string, error) {
 	var games []*Game
 	for _, line := range input {
 		game, err := parseLine(line)

@@ -5,21 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch test",
+      "name": "Launch",
       "type": "go",
       "request": "launch",
       "mode": "debug",
       "program": "${workspaceFolder}/cmd/adventofcode23",
-      "args": ["-t", "5"],
-      "cwd": "${workspaceFolder}"
-    },
-    {
-      "name": "Launch actual",
-      "type": "go",
-      "request": "launch",
-      "mode": "debug",
-      "program": "${workspaceFolder}/cmd/adventofcode23",
-      "args": ["5"],
+      "args": ["6"],
       "cwd": "${workspaceFolder}"
     }
   ]

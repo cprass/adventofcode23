@@ -14,6 +14,7 @@ import (
 	"github.com/cprass/adventofcode23/internal/day_04"
 	"github.com/cprass/adventofcode23/internal/day_05"
 	"github.com/cprass/adventofcode23/internal/day_06"
+	"github.com/cprass/adventofcode23/internal/day_07"
 	"github.com/cprass/adventofcode23/internal/utils"
 )
 
@@ -25,6 +26,7 @@ var runners = map[int]utils.Runner{
 	4: day_04.Runner{},
 	5: day_05.Runner{},
 	6: day_06.Runner{},
+	7: day_07.Runner{},
 }
 
 func printErrAndExit(message string, err error) {

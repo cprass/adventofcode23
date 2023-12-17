@@ -36,15 +36,6 @@ var handTypes = map[string]int{
 	"Five of a Kind":  6,
 }
 
-var handTypeNames = map[int]string{
-	1: "One Pair",
-	2: "Two Pairs",
-	3: "Three of a Kind",
-	4: "Full House",
-	5: "Four of a Kind",
-	6: "Five of a Kind",
-}
-
 type Card struct {
 	value int
 	name  string
@@ -60,9 +51,9 @@ type Hand struct {
 
 // A function that returns the index and the struct of the first
 // card that exists concurrently n times in a sorted slice of Cards
-func (h *Hand) findRecurringCard(slice []Card, n int, isPartOne bool) (int, *Card) {
+func (h *Hand) findRecurringCard(slice []Card, n int, isPartOne bool) int {
 	if n == 5 && h.jokers == 5 {
-		return 0, &slice[0]
+		return 0
 	}
 
 	endRange := max(0, n-h.jokers-1)
@@ -72,10 +63,10 @@ func (h *Hand) findRecurringCard(slice []Card, n int, isPartOne bool) (int, *Car
 			continue
 		}
 		if slice[i].value == slice[i+endRange].value {
-			return i, &slice[i]
+			return i
 		}
 	}
-	return -1, nil
+	return -1
 }
 
 func (h *Hand) sortCards() {
@@ -88,81 +79,79 @@ func (h *Hand) sortCards() {
 }
 
 // Finds all five of a kind hand types
-func (h *Hand) findFiveOfAKind(isPartOne bool) (bool, []Card) {
-	idx, _ := h.findRecurringCard(h.sortedCards, 5, isPartOne)
+func (h *Hand) findFiveOfAKind(isPartOne bool) bool {
+	idx := h.findRecurringCard(h.sortedCards, 5, isPartOne)
 	if idx == -1 {
-		return false, nil
+		return false
 	}
 
 	h.handType = handTypes["Five of a Kind"]
-	return true, []Card{}
+	return true
 }
 
 // Finds all four of a kind hand types
-func (h *Hand) findFourOfAKind(isPartOne bool) (bool, []Card) {
-	idx, _ := h.findRecurringCard(h.sortedCards, 4, isPartOne)
+func (h *Hand) findFourOfAKind(isPartOne bool) bool {
+	idx := h.findRecurringCard(h.sortedCards, 4, isPartOne)
 	if idx == -1 {
-		return false, nil
+		return false
 	}
 	h.handType = handTypes["Four of a Kind"]
-	return true, append(h.sortedCards[:idx], h.sortedCards[idx+4:]...)
+	return true
 }
 
 // Find all three of a kind hand types
-func (h *Hand) findThreeOfAKindOrFullHouse(isPartOne bool) (bool, []Card) {
-	idx, _ := h.findRecurringCard(h.sortedCards, 3, isPartOne)
+func (h *Hand) findThreeOfAKindOrFullHouse(isPartOne bool) bool {
+	idx := h.findRecurringCard(h.sortedCards, 3, isPartOne)
 	if idx == -1 {
-		return false, nil
+		return false
 	}
-	restCards := append(h.sortedCards[:idx], h.sortedCards[idx+3:]...)
+	restCards := append(h.sortedCards[:idx], h.sortedCards[idx+2:]...)
 	h.jokers = 0
 
-	// Find another pair for a full house
-	idx2, _ := h.findRecurringCard(restCards, 2, isPartOne)
+	// Find another pair for a full house from the remaining cards
+	idx2 := h.findRecurringCard(restCards, 2, isPartOne)
 	if idx2 != -1 {
 		h.handType = handTypes["Full House"]
-		return true, append(restCards[:idx2], restCards[idx2:]...)
+		return true
 	}
 
 	h.handType = handTypes["Three of a Kind"]
-	return true, append(h.sortedCards[:idx], h.sortedCards[idx+3:]...)
+	return true
 }
 
 // Find one or two pairs of hand types
-func (h *Hand) findPairs(isPartOne bool) (bool, []Card) {
-	idx1, _ := h.findRecurringCard(h.sortedCards, 2, isPartOne)
+func (h *Hand) findPairs(isPartOne bool) bool {
+	idx1 := h.findRecurringCard(h.sortedCards, 2, isPartOne)
 	if idx1 == -1 {
-		return false, nil
+		return false
 	}
-	restCards := append(h.sortedCards[:idx1], h.sortedCards[idx1+2:]...)
+	restCards := append(h.sortedCards[:idx1], h.sortedCards[idx1+1:]...)
 	h.jokers = 0
 
-	idx2, _ := h.findRecurringCard(restCards, 2, isPartOne)
+	idx2 := h.findRecurringCard(restCards, 2, isPartOne)
 	if idx2 == -1 {
 		h.handType = handTypes["One Pair"]
 	} else {
 		h.handType = handTypes["Two Pairs"]
-		restCards = append(restCards[:idx2], restCards[idx2+2:]...)
 	}
 
-	return true, restCards
+	return true
 }
 
 func (h *Hand) findHandType(isPartOne bool) {
-	var match bool
-	match, _ = h.findFiveOfAKind(isPartOne)
+	match := h.findFiveOfAKind(isPartOne)
 	if match {
 		return
 	}
-	match, _ = h.findFourOfAKind(isPartOne)
+	match = h.findFourOfAKind(isPartOne)
 	if match {
 		return
 	}
-	match, _ = h.findThreeOfAKindOrFullHouse(isPartOne)
+	match = h.findThreeOfAKindOrFullHouse(isPartOne)
 	if match {
 		return
 	}
-	_, _ = h.findPairs(isPartOne)
+	_ = h.findPairs(isPartOne)
 }
 
 func (h *Hand) addCardsFromString(input string, isPartOne bool) error {
@@ -238,8 +227,6 @@ func (r Runner) Run(input []string, isPartOne bool) (string, error) {
 		for _, card := range hand.cards {
 			cardsStr += card.name
 		}
-		// Keeping this line for debugging purposes
-		fmt.Printf("Hand: %s, Rank: %d, Hand type: %s\n", cardsStr, i+1, handTypeNames[hand.handType])
 		sum += hand.bid * (i + 1)
 	}
 

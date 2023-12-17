@@ -3,7 +3,6 @@
 package day_07
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/cprass/adventofcode23/internal/utils"
@@ -26,13 +25,13 @@ func TestFindRecurringCardPart1(t *testing.T) {
 	}
 	hand.sortCards()
 
-	idx, card := hand.findRecurringCard(hand.sortedCards, 2, true)
+	idx := hand.findRecurringCard(hand.sortedCards, 2, true)
 	if idx != 2 {
 		t.Errorf("Expected index 1, got %d", idx)
 		return
 	}
-	if card.name != "3" {
-		t.Errorf("Expected card name 3, got %s", card.name)
+	if hand.sortedCards[idx].name != "3" {
+		t.Errorf("Expected card name 3, got %s", hand.sortedCards[idx].name)
 	}
 }
 
@@ -45,13 +44,13 @@ func TestFindRecurringCardPart2(t *testing.T) {
 	}
 	hand.sortCards()
 
-	idx, card := hand.findRecurringCard(hand.sortedCards, 3, false)
+	idx := hand.findRecurringCard(hand.sortedCards, 3, false)
 	if idx != 1 {
 		t.Errorf("Expected index 1, got %d", idx)
 		return
 	}
-	if card.name != "3" {
-		t.Errorf("Expected card name 3, got %s", card.name)
+	if hand.sortedCards[idx].name != "3" {
+		t.Errorf("Expected card name 3, got %s", hand.sortedCards[idx].name)
 	}
 
 	err = hand.addCardsFromString("JJJ24", false)
@@ -60,14 +59,10 @@ func TestFindRecurringCardPart2(t *testing.T) {
 	}
 	hand.sortCards()
 
-	idx, card = hand.findRecurringCard(hand.sortedCards, 4, false)
+	idx = hand.findRecurringCard(hand.sortedCards, 4, false)
 	if idx != 0 {
 		t.Errorf("Expected index 0, got %d", idx)
-		fmt.Println(card.name)
 		return
-	}
-	if card.name != "4" {
-		t.Errorf("Expected card name 4, got %s", card.name)
 	}
 }
 
@@ -80,8 +75,34 @@ func TestFiveOfAKind(t *testing.T) {
 	}
 	hand.sortCards()
 
-	match, _ := hand.findFiveOfAKind(false)
+	match := hand.findFiveOfAKind(false)
 	if match {
 		t.Errorf("Expected not five of a kind, got %v", match)
+	}
+}
+
+func TestThreeOfAKindOrFullHouse(t *testing.T) {
+	var hand Hand
+	err := hand.addCardsFromString("KKQQJ", true)
+	if err != nil {
+		t.Error(err)
+	}
+	hand.sortCards()
+
+	match := hand.findThreeOfAKindOrFullHouse(true)
+	if match {
+		t.Errorf("Expected not to have a full house, got %v", match)
+	}
+
+	hand = Hand{}
+	err = hand.addCardsFromString("KKQQJ", false)
+	if err != nil {
+		t.Error(err)
+	}
+	hand.sortCards()
+
+	match = hand.findThreeOfAKindOrFullHouse(false)
+	if !match {
+		t.Errorf("Expected to have a full house, got %v", match)
 	}
 }

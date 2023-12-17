@@ -105,7 +105,10 @@ func (h *Hand) findThreeOfAKindOrFullHouse(isPartOne bool) bool {
 	if idx == -1 {
 		return false
 	}
-	restCards := append(h.sortedCards[:idx], h.sortedCards[idx+2:]...)
+	cardsWithoutJ := h.sortedCards[:len(h.sortedCards)-h.jokers]
+	restCards := make([]Card, len(h.sortedCards)-3)
+	copy(restCards, cardsWithoutJ[:idx])
+	copy(restCards[idx:], cardsWithoutJ[idx+3-h.jokers:])
 	h.jokers = 0
 
 	// Find another pair for a full house from the remaining cards
@@ -125,7 +128,10 @@ func (h *Hand) findPairs(isPartOne bool) bool {
 	if idx1 == -1 {
 		return false
 	}
-	restCards := append(h.sortedCards[:idx1], h.sortedCards[idx1+1:]...)
+	cardsWithoutJ := h.sortedCards[:len(h.sortedCards)-h.jokers]
+	restCards := make([]Card, len(h.sortedCards)-2)
+	copy(restCards, cardsWithoutJ[:idx1])
+	copy(restCards[idx1:], cardsWithoutJ[idx1+2-h.jokers:])
 	h.jokers = 0
 
 	idx2 := h.findRecurringCard(restCards, 2, isPartOne)
